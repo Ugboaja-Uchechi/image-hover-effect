@@ -1,5 +1,5 @@
-import React from 'react';
-// import "./styles/home.scss";
+import React, { useEffect, useState } from 'react';
+import cn from "classnames"
 import "../styles/gallery.scss"
 
 const images = [
@@ -9,8 +9,15 @@ const images = [
 ];
 
 export const GalleryItem = ({ src }) => {
+  const [reveal, setReveal] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() =>{
+      setReveal(true);
+    }, 100)
+  },[])
   return (
-    <div className='gallery-item-wrapper'>
+    <div className={cn('gallery-item-wrapper', { "is-reveal": reveal })}>
       <div className='gallery-item'>
         <div
           className='gallery-item-image sepia'

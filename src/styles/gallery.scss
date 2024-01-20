@@ -11,18 +11,37 @@
     position: relative;
     will-change: transform;
 
-    // clip-path: inset(100% 0% 0% 0%);
+    clip-path: inset(100% 0% 0% 0%);
 
-    transition: clip-path 1s cubic-bezier(0.77, 0, 0.175,1);
+    transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
   }
 
   .gallery-item-wrapper {
     transform: scale(1);
-    transition: transform 1s cubic-bezier(0.77, 0, 0.175,1);
-  }
+    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
 
-  &:hover {
-    transform: scale(1.1);
+    &.is-reveal {
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}n) {
+          .gallery-item {
+            transition-delay: #{$i * 0.1}s !important;
+          }
+        }
+      }
+
+      .gallery-item {
+        clip-path: inset(0% 0% 0% 0%);
+      }
+
+      .gallery-item-image {
+        transform-origin: scale(1);
+      }
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
   }
 
   .gallery-item-image {
@@ -33,7 +52,7 @@
     height: 100%;
     will-change: transform;
     transform: scale(1.1);
-    transition: transform 2s cubic-bezier(0.77, 0, 0.175,1);
+    transition: transform 2s cubic-bezier(0.77, 0, 0.175, 1);
     position: absolute;
   }
 
