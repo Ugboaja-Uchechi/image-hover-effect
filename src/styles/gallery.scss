@@ -1,8 +1,8 @@
 .gallery {
   height: 600px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 100px;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 50px;
 
   .gallery-item {
     width: 100%;
