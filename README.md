@@ -25,4 +25,4 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgement(s)
 - [Studio-Malvah](https://www.awwwards.com/sites/studio-malvah)
-- [Web Unlocked](https://youtu.be/t_FvfLNx9Ow?si=n-R2VthfusMjA8xq)
+- [Web Unlocked](www.youtube.com/@webunlocked)
