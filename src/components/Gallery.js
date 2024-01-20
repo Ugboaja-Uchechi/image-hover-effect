@@ -24,27 +24,55 @@ export const GalleryItem = ({ src }) => {
   }, []);
 
   useEffect(() => {
-    function getCoordinates(mouse) {
+    // Define ref here
+    const element = ref.current;
+
+    function getCoordinates(event) {
+      const coords = event.changedTouches ? event.changedTouches[0] : event;
       const imagePosition = {
-        posX: ref.current.offsetLeft,
-        posY: ref.current.offsetTop,
+        posX: element.offsetLeft,
+        posY: element.offsetTop,
       };
 
-      const posX = mouse.pageX - imagePosition.posX;
-      const posY = mouse.pageY - imagePosition.posY;
+      const posX = coords.pageX - imagePosition.posX;
+      const posY = coords.pageY - imagePosition.posY;
 
       setClipMask({
-        x: (posX / ref.current.clientWidth) * 100,
-        y: (posY / ref.current.clientHeight) * 100,
+        x: (posX / element.clientWidth) * 100,
+        y: (posY / element.clientHeight) * 100,
       });
     }
 
-    ref.current.addEventListener("mousemove", (mouse) => {
+    const mouseMoveHandler = (event) => {
       window.requestAnimationFrame(() => {
-        getCoordinates(mouse);
+        getCoordinates(event);
       });
-    });
-  }, []);
+    };
+
+    const touchStartHandler = (event) => {
+      setClipMaskRadius(25);
+      mouseContext.setSize("hide");
+      mouseMoveHandler(event);
+    };
+
+    const touchEndHandler = () => {
+      setClipMaskRadius(0);
+      mouseContext.setSize("small");
+    }
+
+    element.addEventListener("mousemove", mouseMoveHandler);
+    element.addEventListener("touchmove", mouseMoveHandler);
+    element.addEventListener("touchstart", touchStartHandler);
+    element.addEventListener("touchend", touchEndHandler);
+
+    // Return a function to clean up the event listener when the component unmounts
+    return () => {
+      element.removeEventListener("mousemove", mouseMoveHandler);
+      element.removeEventListener("touchmove", mouseMoveHandler);
+      element.removeEventListener("touchstart", touchStartHandler);
+      element.removeEventListener("touchend", touchEndHandler);
+    };
+  }, [mouseContext]); // Include "mouseContext" inside the array of dependencies.
 
   return (
     <div className={cn('gallery-item-wrapper', { "is-reveal": reveal })}
